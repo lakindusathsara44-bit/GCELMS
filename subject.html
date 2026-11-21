@@ -26,11 +26,14 @@ const pastIds={
 "Art & Crafts":48852,"Art & Craft":48852,"Home Economics":50548,
 "Mathematics":48827
 };
-const modelIds={
-"History":47246,"Geography":47247,"Civic Education":47248,
-"Science":48094,"Mathematics":48925,
-"Appreciation of English Literary Texts":48963,
-"English":48964,"Entrepreneurship Studies":48972
+const modelFiles={
+"Mathematics":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/68227/mod_resource/content/1/eol_mp_mat_2025%282-26%29.pdf",
+"History":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/60870/mod_resource/content/2/sol_mp_His_2025%282026%29EM.pdf",
+"Geography":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/60871/mod_resource/content/3/eol_geo_mp_12_ans_moe_25%2826%29.pdf",
+"Civic Education":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/60872/mod_resource/content/2/sol_mp_civic_2025%282026%29EM.pdf",
+"Science":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/66116/mod_resource/content/1/eol_mp_sci_2025%282026%29.pdf",
+"Appreciation of English Literary Texts":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/69358/mod_resource/content/2/eol_mp_englit_2025%282026%29.pdf",
+"Entrepreneurship Studies":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/69789/mod_resource/content/2/sol_mp_Entrepreneurship_2025%282026%29.pdf"
 };
 const aliases={
 "Business & Accounting":"Business and Accounting Studies",
@@ -45,9 +48,9 @@ const aliases={
 };
 const key=aliases[subject]||subject;
 const pastId=pastIds[subject]||pastIds[key]||null;
-const modelId=modelIds[subject]||modelIds[key]||null;
+const modelFile=modelFiles[subject]||modelFiles[key]||null;
 const pastUrl=pastId?LMS+"mod/resource/view.php?id="+pastId:pastSection;
-const modelUrl=modelId?LMS+"mod/resource/view.php?id="+modelId:modelCourse;
+const modelUrl=modelFile||modelCourse;
 const hasSpecificPast=Boolean(pastId),hasSpecificModel=Boolean(modelId);
 document.getElementById("subjectTitle").innerHTML='<span class="gradient">'+subject.replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))+'</span>';
 document.getElementById("resourceCount").textContent=(hasSpecificPast?"OFFICIAL PAST PAPER LINK":"OFFICIAL LMS CATALOGUE")+" · "+(hasSpecificModel?"MODEL PAPER LINK":"MODEL PAPER CATALOGUE");
