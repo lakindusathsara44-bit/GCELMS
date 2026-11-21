@@ -111,17 +111,15 @@ const cards=[
 ];
 const mcqLanguageBySubject={
 "Dancing":"සිංහල",
-"Tamil":"தமிழ்",
 "Tamil Literature":"தமிழ்",
-"Second Language (Sinhala)":"සිංහල",
 "Second Language (Tamil)":"தமிழ்"
 };
 const mcqLanguage=mcqLanguageBySubject[subject]||mcqLanguageBySubject[key]||null;
 const mcqCard=mcqLanguage?{
-tag:"40-QUESTION MCQ PRACTICE",
+tag:"40-QUESTION LMS-BASED MCQ PRACTICE",
 year:mcqLanguage+" · 3 OPTIONS EACH",
 title:subject+" — MCQ Practice Test",
-desc:"A subject-specific practice test in "+mcqLanguage+". Answer 40 questions using radio buttons, then view your score, correct and incorrect answers, unanswered questions and a complete answer review.",
+desc:"Questions are prepared from the relevant e-Thaksalawa LMS lessons and official NIE learning guides, in "+mcqLanguage+" only. Answer 40 radio-button questions, then review your score and every correct or incorrect answer.",
 url:"mcq.html?subject="+encodeURIComponent(subject),
 button:"START 40 MCQ TEST ↗"
 }:null;
