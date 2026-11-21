@@ -25,6 +25,31 @@ const directFiles={
 "11:history:si":"6200f500e41c9","11:history:ta":"6200f504f1d9c","11:history:en":"6417fc32c433c"
 };
 function bookUrl(s,grade,medium){const key=grade+":"+s[3]+":"+medium;const fid=directFiles[key];if(fid)return "https://govdoc.lk/download/"+fid;const mediumName={si:"sinhala",ta:"tamil",en:"english"}[medium];return "https://govdoc.lk/page/grade-"+grade+"-all-text-book-"+mediumName;}
-function render(){const q=document.getElementById("search").value.trim().toLowerCase(),g=document.getElementById("grade").value,m=document.getElementById("medium").value;let rows=subjects.filter(s=>s.join(" ").toLowerCase().includes(q));if(g==="all"){}const html=[];for(const s of rows){const grades=g==="all"?[10,11]:[Number(g)];const media=m==="all"?["si","ta","en"]:[m];for(const grade of grades){html.push('<article class="card"><div class="card-top"><div><h2>'+s[0]+'</h2><div class="local">'+s[1]+' · '+s[2]+'</div></div><span class="grade">GRADE '+grade+'</span></div><div class="downloads">'+media.map(md=>{const direct=!!directFiles[grade+":"+s[3]+":"+md];return '<a class="dl" href="'+bookUrl(s,grade,md)+'" target="_blank" rel="noopener" aria-label="'+(direct?'Directly download':'Browse catalogue for')+' '+s[0]+' Grade '+grade+' '+mediumNames[md]+' textbook">'+(direct?'Download PDF':'Browse '+mediumNames[md])+' ↗</a>';}).join("")+'</div><div class="footnote">'+media.some(md=>directFiles[grade+":"+s[3]+":"+md])?'Verified direct PDF download link for the available medium(s).':'Catalogue link only — direct PDF URL has not yet been verified for this subject and medium.'+'</div></article>');}}document.getElementById("grid").innerHTML=html.join("")||'<div class="empty">No matching subjects found.</div>';document.getElementById("count").textContent=rows.length+" subjects";}["search","grade","medium"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));render();
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const g=document.getElementById("grade").value;
+ const m=document.getElementById("medium").value;
+ const rows=subjects.filter(s=>s.join(" ").toLowerCase().includes(q));
+ const html=[];
+ for(const s of rows){
+  const grades=g==="all"?[10,11]:[Number(g)];
+  const media=m==="all"?["si","ta","en"]:[m];
+  for(const grade of grades){
+   const hasDirect=media.some(md=>Boolean(directFiles[grade+":"+s[3]+":"+md]));
+   const links=media.map(md=>{
+    const direct=Boolean(directFiles[grade+":"+s[3]+":"+md]);
+    const label=direct?"Download PDF":("Browse "+mediumNames[md]);
+    return '<a class="dl'+(direct?' direct':' catalogue')+'" href="'+bookUrl(s,grade,md)+'" target="_blank" rel="noopener" aria-label="'+(direct?'Direct PDF download':'Open textbook catalogue')+' for '+s[0]+' Grade '+grade+' '+mediumNames[md]+'">'+label+' ↗</a>';
+   }).join("");
+   const note=hasDirect
+    ? "Verified direct PDF download is available only for the medium(s) marked Download PDF."
+    : "Direct PDF link not verified yet. Open the grade-and-medium catalogue to find this textbook.";
+   html.push('<article class="card"><div class="card-top"><div><h2>'+s[0]+'</h2><div class="local">'+s[1]+' · '+s[2]+'</div></div><span class="grade">GRADE '+grade+'</span></div><div class="downloads">'+links+'</div><div class="footnote">'+note+'</div></article>');
+  }
+ }
+ document.getElementById("grid").innerHTML=html.join("")||'<div class="empty">No matching subjects found.</div>';
+ document.getElementById("count").textContent=rows.length+" subjects";
+}
+["search","grade","medium"].forEach(id=>document.getElementById(id).addEventListener(id==="search"?"input":"change",render));render();
 (()=>{const body=document.body,open=document.getElementById("menuToggle"),close=document.getElementById("drawerClose"),shade=document.getElementById("drawerShade"),drawer=document.getElementById("sideDrawer");const setOpen=v=>{body.classList.toggle("drawer-open",v);open.setAttribute("aria-expanded",String(v));};open.addEventListener("click",()=>setOpen(true));close.addEventListener("click",()=>setOpen(false));shade.addEventListener("click",()=>setOpen(false));drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setOpen(false)));document.addEventListener("keydown",e=>{if(e.key==="Escape")setOpen(false)});})();
 </script></body></html>
