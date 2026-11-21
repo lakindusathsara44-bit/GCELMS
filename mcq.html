@@ -221,6 +221,12 @@ const banks = {
 ["'நான் ஒரு புத்தகம் படிக்கிறேன்' என்ற வாக்கியத்தில் பொருள் எது?",["ஒரு புத்தகம்","நான்","படிக்கிறேன்"],0]
 ]}
 };
+// Randomize the position of the correct option so it is not always option A.
+Object.values(banks).forEach(bank=>bank.items.forEach(item=>{
+  const correctAnswer=item[1][item[2]];
+  for(let i=item[1].length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[item[1][i],item[1][j]]=[item[1][j],item[1][i]];}
+  item[2]=item[1].indexOf(correctAnswer);
+}));
 const subject=new URLSearchParams(location.search).get("subject")||"";
 const bank=banks[subject];
 if(!bank){document.getElementById("title").textContent="MCQ set unavailable";document.getElementById("quiz").innerHTML="<p>This subject does not currently have a verified MCQ set.</p>";}
