@@ -123,6 +123,14 @@ const esc=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;
 const cards=[
 {tag:"OFFICIAL MODEL PAPERS",year:hasSpecificModel?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Model Papers",desc:hasSpecificModel?"A subject-specific model/supportive paper is listed in the official e-Thaksalawa LMS. Open the resource to view or download the PDF.":"Check the Ministry of Education's official Model Papers catalogue. If "+subject+" is not listed there, no matching model paper is currently verified in this catalogue.",url:modelUrl,button:hasSpecificModel?"OPEN OFFICIAL RESOURCE ↗":"CHECK MODEL PAPER CATALOGUE ↗"}
 ];
+const scienceStudyCard=subject==="Science"?{
+tag:"ILLUSTRATED SCIENCE STUDY NOTES",
+year:"PLANT & ANIMAL CELLS",
+title:"Plant & Animal Cells — Structure and Functions",
+desc:"Learn plant and animal cell structures with labelled diagrams, Sinhala explanations of cell organelles, similarities, differences and quick revision notes.",
+url:"ol-science-cells.html",
+button:"OPEN ILLUSTRATED CELL NOTES ↗"
+}:null;
 const paperYears=[...new Set(paperRows.map(r=>r.year))].sort((a,b)=>b-a);
 const yearSelect=document.getElementById("paperYear"),mediumSelect=document.getElementById("paperMedium");
 if(paperRows.length){document.getElementById("paperFilters").hidden=false;yearSelect.innerHTML='<option value="all">All available years</option>'+paperYears.map(y=>'<option value="'+y+'">'+y+'</option>').join("");}
@@ -134,7 +142,7 @@ function renderResourceCards(){
   const lines=items.map(r=>'<div class="paper-line"><span class="paper-medium">'+mediumLabel[r.medium]+(r.variant?' · '+esc(r.variant):'')+'</span><div class="paper-actions"><a class="open direct-download" href="https://paperlk.app/api/download/'+r.paper+'" target="_blank" rel="noopener">DOWNLOAD PDF ↓</a><a class="source" href="https://paperlk.app/papers/'+r.paper+'" target="_blank" rel="noopener">SOURCE DETAILS</a></div></div>').join("");
   return '<article class="card paper-year-card"><div class="tags"><span class="tag">DIRECT PDF DOWNLOADS</span><span class="year">YEAR '+y+'</span></div><h3>'+esc(subject)+' — '+y+' Past Papers</h3><div class="paper-list">'+lines+'</div></article>';
  });
- const extras=cards.concat(mcqCard?[mcqCard]:[]).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a></div></article>').join("");
+ const extras=cards.concat(mcqCard?[mcqCard]:[]).concat(scienceStudyCard?[scienceStudyCard]:[]).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a></div></article>').join("");
  document.getElementById("cards").innerHTML=paperCards.join("")+extras+(filtered.length?"":'<div class="empty">No direct PDF is listed for this year and medium. Try another available year or medium.</div>');
  document.getElementById("paperCount").textContent=filtered.length+" DIRECT PDFS";
  document.getElementById("resourceCount").textContent=paperRows.length+" DIRECT PDFS";
