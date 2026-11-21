@@ -1,9 +1,11 @@
 # A/L Subjects
 
-Dedicated folder for the G.C.E. Advanced Level subject library on Apokolips Learning Station.
+Dedicated folder for the G.C.E. Advanced Level learning library on Apokolips Learning Station.
 
 - `index.html` — A/L library landing page.
-- Future subject pages and verified learning resources will be organised here by study stream.
-- Add past-paper links only after confirming the paper and direct PDF download from a reliable source.
+- Organise subject pages and resources by study stream.
+- Main resource categories: **Study Notes**, **Resource Books**, and **Textbooks**.
+- Verify every resource against the current syllabus and a reliable source before publishing.
+- This A/L section is for learning materials; do not add past-paper download sections here.
 
 A/L resources are kept separate from the G.C.E. O/L collection.
