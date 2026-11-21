@@ -26,6 +26,12 @@ const pastIds={
 "Art & Crafts":48852,"Art & Craft":48852,"Home Economics":50548,
 "Mathematics":48827
 };
+const pastFiles={
+"History":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/117459/mod_resource/content/1/eol_his_pp_p12_2025.pdf",
+"ICT":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/117433/mod_resource/content/1/eol_ict_pp_p12_2025.pdf",
+"Information & Communication Technology":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/117433/mod_resource/content/1/eol_ict_pp_p12_2025.pdf",
+"Geography":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/117457/mod_resource/content/1/eol_geo_pp_p12_2025.pdf.pdf"
+};
 const modelFiles={
 "Mathematics":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/68227/mod_resource/content/1/eol_mp_mat_2025%282-26%29.pdf",
 "History":"https://e-thaksalawa.moe.gov.lk/lcms/pluginfile.php/60870/mod_resource/content/2/sol_mp_His_2025%282026%29EM.pdf",
@@ -47,11 +53,40 @@ const aliases={
 "Geography":"Geogrophy","Civic Education":"Citizenship Education"
 };
 const key=aliases[subject]||subject;
+
+/* Third-party resource directories are retained as optional alternatives.
+   These are clearly labelled separately from Ministry of Education sources. */
+const thirdPartyLibraries={
+"Sinhala":"sinhala-language","Tamil":"tamil-language","Mathematics":"mathematics",
+"Science":"science","History":"history","English":"english","English Language":"english",
+"Buddhism":"buddhism","Catholicism":"catholicism","Christianity":"christianity","Islam":"islam",
+"Saivanery":"saivanery","Business & Accounting":"business-accounting",
+"Business & Accounting Studies":"business-accounting","Civic Education":"civic-education",
+"Geography":"geography","Art":"art","Music":"music-oriental","Dancing":"dancing-oriental",
+"Drama & Theatre":"drama-sinhala","ICT":"ict","Information & Communication Technology":"ict",
+"Agriculture & Food Technology":"agriculture-food-technology","Home Economics":"home-economics",
+"Health & Physical Education":"health-physical-education","French":"french","German":"german",
+"Japanese":"japanese","Hindi":"hindi","Arabic":"arabic","Pali":"pali","Sanskrit":"sanskrit",
+"Chinese":"chinese","Korean":"korean","Russian":"russian","Entrepreneurship Studies":"entrepreneurship",
+"Art & Crafts":"art-craft","Tamil Literature":"tamil-literature","Sinhala Literature":"sinhala-literature",
+"English Literature":"english-literature","Media Studies":"media-studies"
+};
+const thirdPartySlug=thirdPartyLibraries[subject]||thirdPartyLibraries[key]||null;
+const thirdPartyPast=thirdPartySlug
+ ? "https://olpastpapers.vercel.app/ol/"+thirdPartySlug+"/"
+ : "https://olpastpapers.vercel.app/ol-past-papers/";
+const thirdPartyModel="https://pastpaperszone.lk/o-l/";
+const extraThirdPartyCards=[
+{tag:"THIRD-PARTY PAST PAPERS",year:"ALTERNATIVE SOURCE",title:subject+" — Past Papers & Marking Schemes",desc:"Optional third-party library. Browse available years and Sinhala, English or Tamil medium papers. Availability and file accuracy may vary; check the paper details before use.",url:thirdPartyPast,button:"BROWSE THIRD-PARTY PAPERS ↗"},
+{tag:"THIRD-PARTY MODEL PAPERS",year:"ALTERNATIVE SOURCE",title:subject+" — Model & Practice Papers",desc:"Optional third-party model-paper collection. This is separate from the official Ministry of Education LMS; verify the subject, year and medium before downloading.",url:thirdPartyModel,button:"BROWSE THIRD-PARTY MODELS ↗"}
+];
+
 const pastId=pastIds[subject]||pastIds[key]||null;
 const modelFile=modelFiles[subject]||modelFiles[key]||null;
-const pastUrl=pastId?LMS+"mod/resource/view.php?id="+pastId:pastSection;
+const pastFile=pastFiles[subject]||pastFiles[key]||null;
+const pastUrl=pastFile||(pastId?LMS+"mod/resource/view.php?id="+pastId:pastSection);
 const modelUrl=modelFile||modelCourse;
-const hasSpecificPast=Boolean(pastId),hasSpecificModel=Boolean(modelId);
+const hasSpecificPast=Boolean(pastId||pastFile),hasSpecificModel=Boolean(modelFile);
 document.getElementById("subjectTitle").innerHTML='<span class="gradient">'+subject.replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))+'</span>';
 document.getElementById("resourceCount").textContent=(hasSpecificPast?"OFFICIAL PAST PAPER LINK":"OFFICIAL LMS CATALOGUE")+" · "+(hasSpecificModel?"MODEL PAPER LINK":"MODEL PAPER CATALOGUE");
 document.getElementById("intro").textContent="Official Sri Lankan Ministry of Education e-Thaksalawa resources for "+subject+". Open the available PDF resource or browse the official subject catalogue when a direct subject file is not listed.";
@@ -60,7 +95,7 @@ const cards=[
 {tag:"OFFICIAL PAST PAPERS",year:hasSpecificPast?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Past Papers & Marking Schemes",desc:hasSpecificPast?"A subject-specific resource listed in the Ministry of Education e-Thaksalawa LMS. Open it to view or download the available PDF.":"The official e-Thaksalawa Past Papers catalogue contains subject-organised G.C.E. O/L papers and marking schemes. Select "+subject+" in the catalogue.",url:pastUrl,button:hasSpecificPast?"OPEN OFFICIAL PDF ↗":"FIND SUBJECT PAPERS ↗"},
 {tag:"OFFICIAL MODEL PAPERS",year:hasSpecificModel?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Model Papers",desc:hasSpecificModel?"A subject-specific model/supportive paper is listed in the official e-Thaksalawa LMS. Open the resource to view or download the PDF.":"Check the Ministry of Education's official Model Papers catalogue. If "+subject+" is not listed there, no matching model paper is currently verified in this catalogue.",url:modelUrl,button:hasSpecificModel?"OPEN OFFICIAL PDF ↗":"CHECK MODEL PAPER CATALOGUE ↗"}
 ];
-document.getElementById("cards").innerHTML=cards.map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a><a class="source" href="'+pastSection+'" target="_blank" rel="noopener">ALL O/L PAPERS ↗</a></div></article>').join("");
+document.getElementById("cards").innerHTML=cards.concat(extraThirdPartyCards).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a><a class="source" href="'+pastSection+'" target="_blank" rel="noopener">ALL O/L PAPERS ↗</a></div></article>').join("");
 </script><script>
 (()=>{const body=document.body,open=document.getElementById("menuToggle"),close=document.getElementById("drawerClose"),shade=document.getElementById("drawerShade"),drawer=document.getElementById("sideDrawer");if(!open||!drawer||!shade)return;const setOpen=(v)=>{body.classList.toggle("drawer-open",v);open.setAttribute("aria-expanded",String(v));open.setAttribute("aria-label",v?"Close navigation":"Open navigation");};open.addEventListener("click",()=>setOpen(true));close?.addEventListener("click",()=>setOpen(false));shade.addEventListener("click",()=>setOpen(false));drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setOpen(false)));document.addEventListener("keydown",e=>{if(e.key==="Escape")setOpen(false)});})();
 </script></body></html>
