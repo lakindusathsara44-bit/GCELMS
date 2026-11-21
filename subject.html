@@ -11,26 +11,53 @@
 <main><div class="eyebrow">SUBJECT LEARNING SPACE</div><h1 id="subjectTitle"><span class="gradient">Subject</span></h1><p class="intro" id="intro">Explore study materials and verified resources for this subject. The homepage is for navigation only; PDFs are listed on individual subject pages.</p><div class="stats"><span class="stat" id="resourceCount">0 RESOURCES</span><span class="stat">SINHALA · ENGLISH · TAMIL</span></div>
 <div class="head"><div><div class="eyebrow">LEARNING MATERIALS</div><h2>Available resources</h2></div><p>Select “Open PDF” to open a file. Nothing downloads automatically.</p></div><div class="cards" id="cards"></div></main><footer class="footer"><section class="about-apokolips"><div class="about-heading">ABOUT US</div><p><a href="https://www.apokolips.xyz/" target="_blank" rel="noopener">www.apokolips.xyz ↗</a></p><small>Apokolips is a digital platform sharing independent projects, web solutions, educational platforms and useful online tools. Visit the main website to discover its other projects and services.</small></section></footer>
 <script>
-const records=[
-{subject:"Mathematics",title:"2025(2026) G.C.E. O/L Mathematics Past Paper",type:"Past Paper",year:"2025(2026)",medium:"Sinhala",description:"Sinhala medium question paper. Direct PDF endpoint verified.",file:"https://pastpapers.wiki/download/39411/20252026-o-l/105388/20252026-ol-mathematics-past-paper-sinhala-medium-past-papers-wiki.pdf",sourcePage:"https://pastpapers.wiki/20252026-o-l-mathematics-past-paper/"},
-{subject:"History",title:"2024(2025) G.C.E. O/L History Past Paper",type:"Past Paper",year:"2024(2025)",medium:"Sinhala",description:"Sinhala medium question paper. 10-page PDF; direct endpoint verified.",file:"https://pastpapers.wiki/download/32005/20242025-o-l-past-papers/86918/20242025-ol-history-past-paper-sinhala-medium.pdf",sourcePage:"https://pastpapers.wiki/20242025-o-l-history-past-paper-sinhala-medium/"},
-{subject:"History",title:"2024(2025) G.C.E. O/L History Marking Scheme",type:"Marking Scheme",year:"2024(2025)",medium:"Sinhala",description:"Sinhala medium marking scheme. 24-page PDF; direct endpoint verified.",file:"https://pastpapers.wiki/download/32005/20242025-o-l-past-papers/89951/20242025-ol-history-marking-scheme-sinhala-medium-past-paper-wiki.pdf",sourcePage:"https://pastpapers.wiki/20242025-o-l-history-marking-scheme-sinhala-medium/"},
-{subject:"Science",title:"2024(2025) G.C.E. O/L Science Past Paper",type:"Past Paper",year:"2024(2025)",medium:"English",description:"English medium question paper. 13-page PDF; direct endpoint verified.",file:"https://pastpapers.wiki/download/32005/20242025-o-l-past-papers/86986/20242025-ol-science-past-paper-english-medium.pdf",sourcePage:"https://pastpapers.wiki/20242025-o-l-science-past-paper-english-medium/"},
-{subject:"Science",title:"2024(2025) G.C.E. O/L Science Marking Scheme",type:"Marking Scheme",year:"2024(2025)",medium:"English",description:"English medium marking scheme. 20-page PDF; direct endpoint verified.",file:"https://pastpapers.wiki/download/32005/20242025-o-l-past-papers/90003/20242025-ol-science-marking-scheme-english-medium-past-paper-wiki.pdf",sourcePage:"https://pastpapers.wiki/20242025-o-l-science-marking-scheme-english-medium/"}
-];
-const subjectLibraries={"Sinhala":"sinhala-language","Tamil":"tamil-language","Mathematics":"mathematics","Science":"science","History":"history","English":"english","English Language":"english","Buddhism":"buddhism","Catholicism":"catholicism","Christianity":"christianity","Islam":"islam","Saivanery":"saivanery","Business & Accounting":"business-accounting","Business & Accounting Studies":"business-accounting","Civic Education":"civic-education","Geography":"geography","Art":"art","Music":"music-oriental","Dancing":"dancing-oriental","Drama & Theatre":"drama-sinhala","ICT":"ict","Information & Communication Technology":"ict","Agriculture & Food Technology":"agriculture-food-technology","Home Economics":"home-economics"};
-const librarySlug=subjectLibraries[subject]||null;
-const libraryBase="https://olpastpapers.vercel.app/ol/";
-const modelLibrary="https://pastpaperszone.lk/o-l/";
-const modelDirectory="https://openuniversity.lk/model-papers";
-const names={Mathematics:["Mathematics","ගණිතය","கணிதம்"],Science:["Science","විද්‍යාව","அறிவியல்"],History:["History","ඉතිහාසය","வரலாறு"]};
-const subject=new URLSearchParams(location.search).get("subject")||"Subject";document.getElementById("videoLink").href="videos.html?subject="+encodeURIComponent(subject);
-const rows=records.filter(r=>r.subject.toLowerCase()===subject.toLowerCase());
+const subject=new URLSearchParams(location.search).get("subject")||"Subject";
 document.title=subject+" | Apokolips Learning Station";
-document.getElementById("subjectTitle").innerHTML='<span class="gradient">'+(names[subject]?.[0]||subject)+'</span>';
-document.getElementById("resourceCount").textContent=rows.length+" RESOURCES";
-document.getElementById("intro").textContent=rows.length?"Browse currently listed "+subject+" resources. More papers and notes will be added after their links are checked.":"This subject page is ready. Verified learning materials will be added here as they become available.";
-document.getElementById("cards").innerHTML=rows.length?rows.map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.type.toUpperCase()+' · '+r.medium.toUpperCase()+'</span><span class="year">'+r.year+'</span></div><h3>'+r.title+'</h3><p>'+r.description+'</p><div class="actions"><a class="open" href="'+r.file+'" target="_blank" rel="noopener">OPEN PDF ↗</a><a class="source" href="'+r.sourcePage+'" target="_blank" rel="noopener">SOURCE DETAILS ↗</a></div></article>').join(""):'<div class="empty">No verified PDF resources have been added for this subject yet.<br>New resources will appear here after verification.</div>';
-;const extraCards='<article class="card"><div class="tags"><span class="tag">PAST PAPERS · MARKING SCHEMES</span><span class="year">PDF LIBRARY</span></div><h3>'+subject+' — Past Papers</h3><p>වසර සහ Sinhala / English / Tamil medium අනුව තිබෙන ප්‍රශ්න පත්‍ර හා ලබාගත හැකි marking schemes තෝරා PDF ලෙස ලබාගන්න.</p><div class="actions"><a class="open" href="'+(librarySlug?libraryBase+librarySlug+'/':'https://olpastpapers.vercel.app/ol-past-papers/')+'" target="_blank" rel="noopener">BROWSE & DOWNLOAD ↗</a><a class="source" href="https://www.doenets.lk/" target="_blank" rel="noopener">EXAM DEPARTMENT ↗</a></div></article><article class="card"><div class="tags"><span class="tag">MODEL PAPERS</span><span class="year">PDF LIBRARY</span></div><h3>'+subject+' — Model Papers</h3><p>අදාළ විෂයට ඇති model papers සහ practice papers සොයා PDF ලෙස විවෘත කරගන්න. ලබාගත හැකි papers ප්‍රමාණය වෙබ් අඩවිය අනුව වෙනස් විය හැක.</p><div class="actions"><a class="open" href="'+modelLibrary+'" target="_blank" rel="noopener">BROWSE MODEL PAPERS ↗</a><a class="source" href="'+modelDirectory+'" target="_blank" rel="noopener">MORE PDF RESOURCES ↗</a></div></article>';document.getElementById("cards").innerHTML+=extraCards;</script><script>
+document.getElementById("videoLink").href="videos.html?subject="+encodeURIComponent(subject);
+const LMS="https://e-thaksalawa.moe.gov.lk/lcms/";
+const pastSection=LMS+"course/section.php?id=14660";
+const modelCourse=LMS+"course/view.php?id=957";
+const pastIds={
+"History":50559,"Information & Communication Technology":50556,"ICT":50556,
+"Geography":50558,"Business & Accounting":50555,"Business & Accounting Studies":50555,
+"Science":50541,"Health & Physical Education":50540,"Civic Education":48830,
+"Western Music":48835,"Music":48835,"Art":48839,"Drama & Theatre":48845,
+"Appreciation of English Literary Texts":48850,"Agriculture & Food Technology":50543,
+"Art & Crafts":48852,"Art & Craft":48852,"Home Economics":50548,
+"Mathematics":48827
+};
+const modelIds={
+"History":47246,"Geography":47247,"Civic Education":47248,
+"Science":48094,"Mathematics":48925,
+"Appreciation of English Literary Texts":48963,
+"English":48964,"Entrepreneurship Studies":48972
+};
+const aliases={
+"Business & Accounting":"Business and Accounting Studies",
+"Business & Accounting Studies":"Business and Accounting Studies",
+"Information & Communication Technology":"Information & Communication Technology",
+"ICT":"Information & Communication Technology",
+"Art":"Art","Art & Crafts":"Art & Craft",
+"Drama & Theatre":"Drama & Theater",
+"Music":"Western Music",
+"Christianity":"Christianity","Catholicism":"Catholism",
+"Geography":"Geogrophy","Civic Education":"Citizenship Education"
+};
+const key=aliases[subject]||subject;
+const pastId=pastIds[subject]||pastIds[key]||null;
+const modelId=modelIds[subject]||modelIds[key]||null;
+const pastUrl=pastId?LMS+"mod/resource/view.php?id="+pastId:pastSection;
+const modelUrl=modelId?LMS+"mod/resource/view.php?id="+modelId:modelCourse;
+const hasSpecificPast=Boolean(pastId),hasSpecificModel=Boolean(modelId);
+document.getElementById("subjectTitle").innerHTML='<span class="gradient">'+subject.replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))+'</span>';
+document.getElementById("resourceCount").textContent=(hasSpecificPast?"OFFICIAL PAST PAPER LINK":"OFFICIAL LMS CATALOGUE")+" · "+(hasSpecificModel?"MODEL PAPER LINK":"MODEL PAPER CATALOGUE");
+document.getElementById("intro").textContent="Official Sri Lankan Ministry of Education e-Thaksalawa resources for "+subject+". Open the available PDF resource or browse the official subject catalogue when a direct subject file is not listed.";
+const esc=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const cards=[
+{tag:"OFFICIAL PAST PAPERS",year:hasSpecificPast?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Past Papers & Marking Schemes",desc:hasSpecificPast?"A subject-specific resource listed in the Ministry of Education e-Thaksalawa LMS. Open it to view or download the available PDF.":"The official e-Thaksalawa Past Papers catalogue contains subject-organised G.C.E. O/L papers and marking schemes. Select "+subject+" in the catalogue.",url:pastUrl,button:hasSpecificPast?"OPEN OFFICIAL PDF ↗":"FIND SUBJECT PAPERS ↗"},
+{tag:"OFFICIAL MODEL PAPERS",year:hasSpecificModel?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Model Papers",desc:hasSpecificModel?"A subject-specific model/supportive paper is listed in the official e-Thaksalawa LMS. Open the resource to view or download the PDF.":"Check the Ministry of Education's official Model Papers catalogue. If "+subject+" is not listed there, no matching model paper is currently verified in this catalogue.",url:modelUrl,button:hasSpecificModel?"OPEN OFFICIAL PDF ↗":"CHECK MODEL PAPER CATALOGUE ↗"}
+];
+document.getElementById("cards").innerHTML=cards.map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a><a class="source" href="'+pastSection+'" target="_blank" rel="noopener">ALL O/L PAPERS ↗</a></div></article>').join("");
+</script><script>
 (()=>{const body=document.body,open=document.getElementById("menuToggle"),close=document.getElementById("drawerClose"),shade=document.getElementById("drawerShade"),drawer=document.getElementById("sideDrawer");if(!open||!drawer||!shade)return;const setOpen=(v)=>{body.classList.toggle("drawer-open",v);open.setAttribute("aria-expanded",String(v));open.setAttribute("aria-label",v?"Close navigation":"Open navigation");};open.addEventListener("click",()=>setOpen(true));close?.addEventListener("click",()=>setOpen(false));shade.addEventListener("click",()=>setOpen(false));drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setOpen(false)));document.addEventListener("keydown",e=>{if(e.key==="Escape")setOpen(false)});})();
 </script></body></html>
