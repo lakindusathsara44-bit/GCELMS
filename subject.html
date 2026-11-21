@@ -104,7 +104,6 @@ const hasSpecificPast=Boolean(pastId||pastFile),hasSpecificModel=Boolean(modelFi
 document.getElementById("subjectTitle").innerHTML='<span class="gradient">'+subject.replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))+'</span>';
 document.getElementById("resourceCount").textContent=(hasSpecificPast?"OFFICIAL PAST PAPER LINK":"OFFICIAL LMS CATALOGUE")+" · "+(hasSpecificModel?"MODEL PAPER LINK":"MODEL PAPER CATALOGUE");
 document.getElementById("intro").textContent="Official Sri Lankan Ministry of Education e-Thaksalawa resources for "+subject+". The archive link opens the subject-organised collection so you can browse all years currently published by the Ministry. Older or missing years are not assumed to exist.";
-const esc=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const paperRows=(window.APOKOLIPS_PAST_PAPERS||{})[paperLKSlug]||[];
 const mediumLabel={Sinhala:"SINHALA MEDIUM",Tamil:"TAMIL MEDIUM",English:"ENGLISH MEDIUM"};
 const esc=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
