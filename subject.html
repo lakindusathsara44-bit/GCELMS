@@ -109,8 +109,24 @@ const cards=[
 {tag:"OFFICIAL PAST PAPERS",year:hasSpecificPast?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Past Papers & Marking Schemes",desc:hasSpecificPast?"A subject-specific resource listed in the Ministry of Education e-Thaksalawa LMS. Open it to view or download the available PDF.":"Browse the official Ministry of Education archive for "+subject+" and open every year currently listed there, including available question papers and marking schemes. The archive may not contain every examination year.",url:pastUrl,button:hasSpecificPast?"OPEN LATEST OFFICIAL RESOURCE ↗":"BROWSE ALL AVAILABLE YEARS ↗"},
 {tag:"OFFICIAL MODEL PAPERS",year:hasSpecificModel?"SUBJECT RESOURCE":"OFFICIAL LMS",title:subject+" — Model Papers",desc:hasSpecificModel?"A subject-specific model/supportive paper is listed in the official e-Thaksalawa LMS. Open the resource to view or download the PDF.":"Check the Ministry of Education's official Model Papers catalogue. If "+subject+" is not listed there, no matching model paper is currently verified in this catalogue.",url:modelUrl,button:hasSpecificModel?"OPEN OFFICIAL PDF ↗":"CHECK MODEL PAPER CATALOGUE ↗"}
 ];
+const mcqLanguageBySubject={
+"Dancing":"සිංහල",
+"Tamil":"தமிழ்",
+"Tamil Literature":"தமிழ்",
+"Second Language (Sinhala)":"සිංහල",
+"Second Language (Tamil)":"தமிழ்"
+};
+const mcqLanguage=mcqLanguageBySubject[subject]||mcqLanguageBySubject[key]||null;
+const mcqCard=mcqLanguage?{
+tag:"40-QUESTION MCQ PRACTICE",
+year:mcqLanguage+" · 3 OPTIONS EACH",
+title:subject+" — MCQ Practice Test",
+desc:"A subject-specific practice test in "+mcqLanguage+". Answer 40 questions using radio buttons, then view your score, correct and incorrect answers, unanswered questions and a complete answer review.",
+url:"mcq.html?subject="+encodeURIComponent(subject),
+button:"START 40 MCQ TEST ↗"
+}:null;
 const directThirdPartyCards=thirdPartyDirectFiles.filter(r=>r.subject.toLowerCase()===subject.toLowerCase()).map(r=>({tag:"THIRD-PARTY "+r.type.toUpperCase()+" · "+r.medium.toUpperCase(),year:r.year,title:r.title,desc:r.description,url:r.file,button:"OPEN THIRD-PARTY PDF ↗"}));
-document.getElementById("cards").innerHTML=cards.concat([yearArchiveCard],directThirdPartyCards,extraThirdPartyCards).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a><a class="source" href="'+pastSection+'" target="_blank" rel="noopener">ALL O/L PAPERS ↗</a></div></article>').join("");
+document.getElementById("cards").innerHTML=cards.concat([yearArchiveCard],mcqCard?[mcqCard]:[],directThirdPartyCards,extraThirdPartyCards).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a><a class="source" href="'+pastSection+'" target="_blank" rel="noopener">ALL O/L PAPERS ↗</a></div></article>').join("");
 </script><script>
 (()=>{const body=document.body,open=document.getElementById("menuToggle"),close=document.getElementById("drawerClose"),shade=document.getElementById("drawerShade"),drawer=document.getElementById("sideDrawer");if(!open||!drawer||!shade)return;const setOpen=(v)=>{body.classList.toggle("drawer-open",v);open.setAttribute("aria-expanded",String(v));open.setAttribute("aria-label",v?"Close navigation":"Open navigation");};open.addEventListener("click",()=>setOpen(true));close?.addEventListener("click",()=>setOpen(false));shade.addEventListener("click",()=>setOpen(false));drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setOpen(false)));document.addEventListener("keydown",e=>{if(e.key==="Escape")setOpen(false)});})();
 </script></body></html>
