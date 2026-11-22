@@ -131,6 +131,15 @@ desc:"Learn plant and animal cell structures with labelled diagrams, Sinhala exp
 url:"ol-science-cells.html",
 button:"OPEN ILLUSTRATED CELL NOTES ↗"
 }:null;
+const olStudyNotes={
+"Mathematics":{tag:"O/L MATHEMATICS STUDY NOTES",year:"GRADES 10–11",title:"Mathematics — Illustrated Study Notes",desc:"Number, algebra, geometry, mensuration, trigonometry, graphs, statistics and probability with Sinhala explanations and worked examples.",url:"ol-notes/mathematics.html",button:"OPEN MATHEMATICS NOTES ↗"},
+"Science":{tag:"O/L SCIENCE STUDY NOTES",year:"GRADES 10–11",title:"Science — Integrated Study Notes",desc:"Biology, Chemistry, Physics, environment and scientific investigation, plus illustrated plant and animal cell notes.",url:"ol-notes/science.html",button:"OPEN SCIENCE NOTES ↗"},
+"ICT":{tag:"O/L ICT STUDY NOTES",year:"GRADES 10–11",title:"ICT — Study Notes",desc:"Computer systems, data representation, networks, office applications, algorithms, programming, web basics and cybersecurity.",url:"ol-notes/ict.html",button:"OPEN ICT NOTES ↗"},
+"Information & Communication Technology":{tag:"O/L ICT STUDY NOTES",year:"GRADES 10–11",title:"ICT — Study Notes",desc:"Computer systems, data representation, networks, office applications, algorithms, programming, web basics and cybersecurity.",url:"ol-notes/ict.html",button:"OPEN ICT NOTES ↗"},
+"Agriculture & Food Technology":{tag:"O/L AGRICULTURE STUDY NOTES",year:"GRADES 10–11",title:"Agriculture & Food Technology — Study Notes",desc:"Soil, crop production, livestock, food processing, food safety and sustainable agriculture.",url:"ol-notes/agriculture-food-technology.html",button:"OPEN AGRICULTURE NOTES ↗"},
+"Health & Physical Education":{tag:"O/L HEALTH STUDY NOTES",year:"GRADES 10–11",title:"Health & Physical Education — Study Notes",desc:"Personal health, nutrition, growth, disease prevention, safety, first aid and physical fitness.",url:"ol-notes/health-physical-education.html",button:"OPEN HEALTH NOTES ↗"}
+};
+const olStudyCard=olStudyNotes[subject]||null;
 const paperYears=[...new Set(paperRows.map(r=>r.year))].sort((a,b)=>b-a);
 const yearSelect=document.getElementById("paperYear"),mediumSelect=document.getElementById("paperMedium");
 if(paperRows.length){document.getElementById("paperFilters").hidden=false;yearSelect.innerHTML='<option value="all">All available years</option>'+paperYears.map(y=>'<option value="'+y+'">'+y+'</option>').join("");}
@@ -142,7 +151,7 @@ function renderResourceCards(){
   const lines=items.map(r=>'<div class="paper-line"><span class="paper-medium">'+mediumLabel[r.medium]+(r.variant?' · '+esc(r.variant):'')+'</span><div class="paper-actions"><a class="open direct-download" href="https://paperlk.app/api/download/'+r.paper+'" target="_blank" rel="noopener">DOWNLOAD PDF ↓</a><a class="source" href="https://paperlk.app/papers/'+r.paper+'" target="_blank" rel="noopener">SOURCE DETAILS</a></div></div>').join("");
   return '<article class="card paper-year-card"><div class="tags"><span class="tag">DIRECT PDF DOWNLOADS</span><span class="year">YEAR '+y+'</span></div><h3>'+esc(subject)+' — '+y+' Past Papers</h3><div class="paper-list">'+lines+'</div></article>';
  });
- const extras=cards.concat(mcqCard?[mcqCard]:[]).concat(scienceStudyCard?[scienceStudyCard]:[]).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a></div></article>').join("");
+ const extras=cards.concat(olStudyCard?[olStudyCard]:[]).concat(mcqCard?[mcqCard]:[]).concat(scienceStudyCard?[scienceStudyCard]:[]).map(r=>'<article class="card"><div class="tags"><span class="tag">'+r.tag+'</span><span class="year">'+r.year+'</span></div><h3>'+esc(r.title)+'</h3><p>'+esc(r.desc)+'</p><div class="actions"><a class="open" href="'+r.url+'" target="_blank" rel="noopener">'+r.button+'</a></div></article>').join("");
  document.getElementById("cards").innerHTML=paperCards.join("")+extras+(filtered.length?"":'<div class="empty">No direct PDF is listed for this year and medium. Try another available year or medium.</div>');
  document.getElementById("paperCount").textContent=filtered.length+" DIRECT PDFS";
  document.getElementById("resourceCount").textContent=paperRows.length+" DIRECT PDFS";
